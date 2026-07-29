@@ -19,7 +19,7 @@ internal static unsafe class UISettings
     private static string AddNew = "";
     internal static void Draw()
     {
-        NuiTools.ButtonTabs([[new("General", () => Wrapper(DrawGeneral)), new("Overlay", () => Wrapper(DrawOverlay))], [new("Expert", () => Wrapper(DrawExpert)), new("Service Accounts", () => Wrapper(UIServiceAccount.Draw)), new("Travel Block", TabTravelBan.Draw)]]);
+        NuiTools.ButtonTabs([[new("一般", () => Wrapper(DrawGeneral)), new("浮動介面", () => Wrapper(DrawOverlay))], [new("進階", () => Wrapper(DrawExpert)), new("服務帳號", () => Wrapper(UIServiceAccount.Draw)), new("移動封鎖", TabTravelBan.Draw)]]);
     }
 
     private static void Wrapper(Action action)
@@ -31,52 +31,52 @@ internal static unsafe class UISettings
     private static void DrawGeneral()
     {
         new NuiBuilder()
-        .Section("Teleport Configuration")
+        .Section("傳送設定")
         .Widget(() =>
         {
             ImGui.SetNextItemWidth(200f.Scale());
-            ImGuiEx.EnumCombo($"Teleport world change gateway", ref C.WorldChangeAetheryte, Lang.WorldChangeAetherytes);
-            ImGuiEx.HelpMarker($"Where would you like to teleport for world changes");
-            ImGui.Checkbox($"Teleport to specific aethernet destination after world/dc visit", ref C.WorldVisitTPToAethernet);
+            ImGuiEx.EnumCombo($"跨界移動時使用的主要水晶", ref C.WorldChangeAetheryte, Lang.WorldChangeAetherytes);
+            ImGuiEx.HelpMarker($"選擇跨伺服器時要先傳送到哪座主要水晶");
+            ImGui.Checkbox($"跨伺服器／資料中心後傳送到指定的都市傳送網目的地", ref C.WorldVisitTPToAethernet);
             if(C.WorldVisitTPToAethernet)
             {
                 ImGui.Indent();
                 ImGui.SetNextItemWidth(250f.Scale());
-                ImGui.InputText("Aethernet destination, as if you'd use in \"/li\" command", ref C.WorldVisitTPTarget, 50);
-                ImGui.Checkbox($"Only teleport from command but not from overlay", ref C.WorldVisitTPOnlyCmd);
+                ImGui.InputText("都市傳送網目的地（與「/li」指令輸入方式相同）", ref C.WorldVisitTPTarget, 50);
+                ImGui.Checkbox($"只在使用指令時傳送，不套用於浮動介面", ref C.WorldVisitTPOnlyCmd);
                 ImGui.Unindent();
             }
-            ImGui.Checkbox($"Add firmament location into Foundation aetheryte", ref C.Firmament);
-            ImGui.Checkbox($"Automatically leave non cross-world party upon changing world", ref C.LeavePartyBeforeWorldChange);
-            ImGui.Checkbox($"Show teleport destination in chat", ref C.DisplayChatTeleport);
-            ImGui.Checkbox($"Show teleport destination in popup notifications", ref C.DisplayPopupNotifications);
-            ImGui.Checkbox("Retry same-world failed world visits", ref C.RetryWorldVisit);
+            ImGui.Checkbox($"在伊修加德基礎層主要水晶加入蒼天街目的地", ref C.Firmament);
+            ImGui.Checkbox($"跨伺服器前自動退出非跨界隊伍", ref C.LeavePartyBeforeWorldChange);
+            ImGui.Checkbox($"在聊天欄顯示傳送目的地", ref C.DisplayChatTeleport);
+            ImGui.Checkbox($"以彈出通知顯示傳送目的地", ref C.DisplayPopupNotifications);
+            ImGui.Checkbox("同資料中心跨界失敗時重試", ref C.RetryWorldVisit);
             ImGui.Indent();
             ImGui.SetNextItemWidth(100f.Scale());
-            ImGui.InputInt("Interval between retries, seconds##2", ref C.RetryWorldVisitInterval.ValidateRange(1, 120));
+            ImGui.InputInt("重試間隔（秒）##2", ref C.RetryWorldVisitInterval.ValidateRange(1, 120));
             ImGui.SameLine();
-            ImGuiEx.Text("+ up to");
+            ImGuiEx.Text("＋最多");
             ImGui.SameLine();
             ImGui.SetNextItemWidth(100f.Scale());
-            ImGui.InputInt("seconds##2", ref C.RetryWorldVisitIntervalDelta.ValidateRange(0, 120));
-            ImGuiEx.HelpMarker("To make it appear less bot-like");
+            ImGui.InputInt("秒##2", ref C.RetryWorldVisitIntervalDelta.ValidateRange(0, 120));
+            ImGuiEx.HelpMarker("隨機增加等待時間，使操作較自然");
             ImGui.Unindent();
             //ImGui.Checkbox("Use Return instead of Teleport when possible", ref C.UseReturn);
             //ImGuiEx.HelpMarker("This includes any IPC calls");
-            ImGui.Checkbox("Enable tray notifications upon travel completion", ref C.EnableNotifications);
+            ImGui.Checkbox("移動完成時顯示系統匣通知", ref C.EnableNotifications);
             ImGuiEx.PluginAvailabilityIndicator([new("NotificationMaster")]);
         })
 
-        .Section("Shortcuts")
+        .Section("捷徑")
         .Widget(() =>
         {
             ImGui.SetNextItemWidth(200f.Scale());
-            ImGuiEx.EnumCombo("\"/li\" command behavior", ref C.LiCommandBehavior);
-            ImGui.Checkbox("When teleporting to your own apartment, enter inside", ref C.EnterMyApartment);
+            ImGuiEx.EnumCombo("「/li」指令行為", ref C.LiCommandBehavior);
+            ImGui.Checkbox("傳送到自己的公寓時進入室內", ref C.EnterMyApartment);
             ImGui.SetNextItemWidth(150f.Scale());
-            ImGuiEx.EnumCombo("When teleporting to your/fc house, perform this action", ref C.HouseEnterMode);
+            ImGuiEx.EnumCombo("傳送到個人／公會房屋後執行", ref C.HouseEnterMode);
             ImGui.SetNextItemWidth(150f.Scale());
-            if(ImGui.BeginCombo("Preferred Inn", Utils.GetInnNameFromTerritory(C.PreferredInn), ImGuiComboFlags.HeightLarge))
+            if(ImGui.BeginCombo("偏好的旅館", Utils.GetInnNameFromTerritory(C.PreferredInn), ImGuiComboFlags.HeightLarge))
             {
                 foreach(var x in (uint[])[0, .. TaskPropertyShortcut.InnData.Keys])
                 {
@@ -90,23 +90,23 @@ internal static unsafe class UISettings
                 var pref = C.PreferredSharedEstates.SafeSelect(Player.CID);
                 var name = pref switch
                 {
-                    (0, 0, 0) => "First available",
-                    (-1, 0, 0) => "Disable",
+                    (0, 0, 0) => "第一個可用房屋",
+                    (-1, 0, 0) => "停用",
                     _ => $"{ExcelTerritoryHelper.GetName((uint)pref.Territory)}, W{pref.Ward}, P{pref.Plot}"
                 };
-                if(ImGui.BeginCombo($"Preferred shared estate for {Player.NameWithWorld}", name))
+                if(ImGui.BeginCombo($"{Player.NameWithWorld} 偏好的共享房屋", name))
                 {
                     foreach(var x in Svc.AetheryteList.Where(x => x.IsSharedHouse))
                     {
-                        if(ImGui.RadioButton("First available", pref == default))
+                        if(ImGui.RadioButton("第一個可用房屋", pref == default))
                         {
                             C.PreferredSharedEstates.Remove(Player.CID);
                         }
-                        if(ImGui.RadioButton("Disable", pref == (-1, 0, 0)))
+                        if(ImGui.RadioButton("停用", pref == (-1, 0, 0)))
                         {
                             C.PreferredSharedEstates[Player.CID] = (-1, 0, 0);
                         }
-                        if(ImGui.RadioButton($"{ExcelTerritoryHelper.GetName(x.TerritoryId)}, Ward {x.Ward}, Plot {x.Plot}", pref == ((int)x.TerritoryId, x.Ward, x.Plot)))
+                        if(ImGui.RadioButton($"{ExcelTerritoryHelper.GetName(x.TerritoryId)}，第 {x.Ward} 區，第 {x.Plot} 號地", pref == ((int)x.TerritoryId, x.Ward, x.Plot)))
                         {
                             C.PreferredSharedEstates[Player.CID] = ((int)x.TerritoryId, x.Ward, x.Plot);
                         }
@@ -115,7 +115,7 @@ internal static unsafe class UISettings
                 }
             }
             ImGui.Separator();
-            ImGuiEx.Text("\"/li auto\" command priority:");
+            ImGuiEx.Text("「/li auto」指令優先順序：");
             var prio = C.PropertyPrio;
             var custom = C.PropertyPrioOverrides.TryGetValue(Player.CID, out var value);
             if(custom)
@@ -125,15 +125,15 @@ internal static unsafe class UISettings
 
             if(Player.Available)
             {
-                ImGuiEx.Text($"For {Censor.Character(Player.NameWithWorld)}:");
+                ImGuiEx.Text($"{Censor.Character(Player.NameWithWorld)}：");
                 ImGui.Indent();
-                if(ImGui.RadioButton("Use Global Settings", !custom))
+                if(ImGui.RadioButton("使用全域設定", !custom))
                 {
                     C.PropertyPrioOverrides.Remove(Player.CID);
                 }
                 ImGui.SameLine();
 
-                if(ImGui.RadioButton("Use Individual Settings", custom))
+                if(ImGui.RadioButton("使用角色個別設定", custom))
                 {
                     if(!custom)
                     {
@@ -144,14 +144,14 @@ internal static unsafe class UISettings
             }
             else
             {
-                ImGuiEx.TextV($"Editing Global Settings:");
+                ImGuiEx.TextV($"正在編輯全域設定：");
             }
             ImGui.SameLine();
             if(ImGuiEx.IconButton($"\uf2ea"))
             {
                 prio.Clear();
             }
-            ImGuiEx.Tooltip("Reset to default order");
+            ImGuiEx.Tooltip("重設為預設順序");
 
             var dragDrop = Ref<ImGuiEx.RealtimeDragDrop<AutoPropertyData>>.Get(() => new("apddd", x => x.Type.ToString()));
             prio.AddRange(Enum.GetValues<TaskPropertyShortcut.PropertyType>().Where(x => x != TaskPropertyShortcut.PropertyType.Auto && !prio.Any(s => s.Type == x)).Select(x => new AutoPropertyData(false, x)));
@@ -171,71 +171,71 @@ internal static unsafe class UISettings
             ImGui.Separator();
         })
 
-        .Section("Map Integration")
+        .Section("地圖整合")
         .Widget(() =>
         {
-            ImGui.Checkbox("Click Aethernet Shard on map for quick teleport", ref C.UseMapTeleport);
-            ImGui.Checkbox("Only process when next to aetheryte in the same map", ref C.DisableMapClickOtherTerritory);
+            ImGui.Checkbox("點擊地圖上的都市傳送網碎晶即可快速傳送", ref C.UseMapTeleport);
+            ImGui.Checkbox("僅在同一張地圖且位於主要水晶旁時處理", ref C.DisableMapClickOtherTerritory);
         })
 
-        .Section("Command completion")
+        .Section("指令自動完成")
         .Widget(() =>
         {
-            ImGuiEx.Text($"Suggest autocompletion when typing Lifestream commands in chat");
-            ImGui.Checkbox("Enable", ref C.EnableAutoCompletion);
-            ImGui.Checkbox("Display popup window at fixed position", ref C.AutoCompletionFixedWindow);
+            ImGuiEx.Text($"在聊天欄輸入 Lifestream 指令時顯示自動完成建議");
+            ImGui.Checkbox("啟用", ref C.EnableAutoCompletion);
+            ImGui.Checkbox("在固定位置顯示建議視窗", ref C.AutoCompletionFixedWindow);
             ImGui.Indent();
             ImGui.SetNextItemWidth(200f.Scale());
-            ImGui.DragFloat2("Position", ref C.AutoCompletionWindowOffset, 1f);
-            ImGuiEx.RadioButtonBool("From bottom", "From top", ref C.AutoCompletionWindowBottom, sameLine: true, inverted: true);
-            ImGuiEx.RadioButtonBool("From right", "From left", ref C.AutoCompletionWindowRight, sameLine: true, inverted: true);
+            ImGui.DragFloat2("位置", ref C.AutoCompletionWindowOffset, 1f);
+            ImGuiEx.RadioButtonBool("從下方", "從上方", ref C.AutoCompletionWindowBottom, sameLine: true, inverted: true);
+            ImGuiEx.RadioButtonBool("從右側", "從左側", ref C.AutoCompletionWindowRight, sameLine: true, inverted: true);
             ImGui.Unindent();
         })
 
-        .Section("Cross-Datacenter")
+        .Section("跨資料中心")
         .Widget(() =>
         {
-            ImGui.Checkbox($"Allow travelling to another data center", ref C.AllowDcTransfer);
-            ImGui.Checkbox($"Leave party before switching data center", ref C.LeavePartyBeforeLogout);
-            ImGui.Checkbox($"Teleport to gateway aetheryte before switching data center if not in sanctuary", ref C.TeleportToGatewayBeforeLogout);
-            ImGui.Checkbox($"Teleport to gateway aetheryte after completing data center travel", ref C.DCReturnToGateway);
-            ImGui.Checkbox($"Allow alternative world during DC transfer", ref C.DcvUseAlternativeWorld);
-            ImGuiEx.HelpMarker("If destination world isn't available but some other world on targeted data center is, it will be selected instead. Normal world visit will be enqueued after logging in.");
-            ImGui.Checkbox($"Retry data center transfer if destination world is not available", ref C.EnableDvcRetry);
+            ImGui.Checkbox($"允許前往其他資料中心", ref C.AllowDcTransfer);
+            ImGui.Checkbox($"切換資料中心前退出隊伍", ref C.LeavePartyBeforeLogout);
+            ImGui.Checkbox($"若不在休息區，切換資料中心前先傳送到主要水晶", ref C.TeleportToGatewayBeforeLogout);
+            ImGui.Checkbox($"完成資料中心移動後傳送到主要水晶", ref C.DCReturnToGateway);
+            ImGui.Checkbox($"資料中心移動時允許改用其他伺服器", ref C.DcvUseAlternativeWorld);
+            ImGuiEx.HelpMarker("若目的伺服器無法進入，但目標資料中心的其他伺服器可用，將先選擇可用伺服器，登入後再排入一般跨界移動。");
+            ImGui.Checkbox($"目的伺服器無法進入時重試資料中心移動", ref C.EnableDvcRetry);
             ImGui.Indent();
             ImGui.SetNextItemWidth(150f.Scale());
-            ImGui.InputInt("Max retries", ref C.MaxDcvRetries.ValidateRange(1, int.MaxValue));
+            ImGui.InputInt("最大重試次數", ref C.MaxDcvRetries.ValidateRange(1, int.MaxValue));
             ImGui.SetNextItemWidth(150f.Scale());
-            ImGui.InputInt("Interval between retries, seconds", ref C.DcvRetryInterval.ValidateRange(10, 1000));
+            ImGui.InputInt("重試間隔（秒）", ref C.DcvRetryInterval.ValidateRange(10, 1000));
             ImGui.Unindent();
         })
 
-        .Section("Address Book")
+        .Section("通訊錄")
         .Widget(() =>
         {
-            ImGui.Checkbox($"Disable pathing to a plot", ref C.AddressNoPathing);
-            ImGuiEx.HelpMarker($"You will be left at a closest aetheryte to the ward");
-            ImGui.Checkbox($"Disable entering an apartment", ref C.AddressApartmentNoEntry);
-            ImGuiEx.HelpMarker($"You will be left at an entry confirmation dialogue");
+            ImGui.Checkbox($"停用前往房屋地號的自動尋路", ref C.AddressNoPathing);
+            ImGuiEx.HelpMarker($"角色會停在最接近該住宅區的傳送網碎晶");
+            ImGui.Checkbox($"不自動進入公寓", ref C.AddressApartmentNoEntry);
+            ImGuiEx.HelpMarker($"角色會停在進入確認對話框");
         })
 
-        .Section("Movement")
-        .Checkbox("Use Mount when auto-moving", () => ref C.UseMount)
+        .Section("移動")
+        .Checkbox("自動移動時使用坐騎", () => ref C.UseMount)
         .Widget(() =>
         {
-            Dictionary<int, string> mounts = [new KeyValuePair<int, string>(0, "Mount roulette"), .. Svc.Data.GetExcelSheet<Mount>().Where(x => x.Singular != "").ToDictionary(x => (int)x.RowId, x => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(x.Singular.GetText()))];
+            Dictionary<int, string> mounts = [new KeyValuePair<int, string>(0, "隨機坐騎"), .. Svc.Data.GetExcelSheet<Mount>().Where(x => x.Singular != "").ToDictionary(x => (int)x.RowId, x => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(x.Singular.GetText()))];
             ImGui.SetNextItemWidth(200f);
-            ImGuiEx.Combo("Preferred Mount", ref C.Mount, mounts.Keys, names: mounts);
+            ImGuiEx.Combo("偏好的坐騎", ref C.Mount, mounts.Keys, names: mounts);
         })
-        .Checkbox("Dismount upon arrriving to housing plot", () => ref C.AutoDismount)
-        .Checkbox("Use Sprint when auto-moving", () => ref C.UseSprintPeloton)
-        .Checkbox("Use Peloton when auto-moving", () => ref C.UsePeloton)
+        .Checkbox("抵達房屋地號時下坐騎", () => ref C.AutoDismount)
+        .Checkbox("自動移動時使用衝刺", () => ref C.UseSprintPeloton)
+        .Checkbox("自動移動時使用速行", () => ref C.UsePeloton)
 
-        .Section("Character Select Menu")
-        .Checkbox("Enable Data center and World visit from Character Select Menu", () => ref C.AllowDCTravelFromCharaSelect)
-        .Checkbox("Use world visit instead of DC visit to travel to same world on guest DC", () => ref C.UseGuestWorldTravel)
+        .Section("角色選擇畫面")
+        .Checkbox("允許從角色選擇畫面進行資料中心及伺服器移動", () => ref C.AllowDCTravelFromCharaSelect)
+        .Checkbox("前往訪客資料中心的同資料中心伺服器時使用跨界移動", () => ref C.UseGuestWorldTravel)
 
-        .Section("Wotsit Integration")
+        .Section("Wotsit 整合")
         .Widget(() =>
         {
             var anyChanged = ImGui.Checkbox("Enable Wotsit Integration for teleporting to Aethernet destinations", ref C.WotsitIntegrationEnabled);

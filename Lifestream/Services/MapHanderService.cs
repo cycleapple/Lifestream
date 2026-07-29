@@ -122,7 +122,7 @@ public unsafe class MapHanderService : IDisposable
                                 }
                                 if(zone.GenericAetheryteNames.Contains(text))
                                 {
-                                    var target = zone.Aetherytes.MinBy(x => Vector2.Distance(x.MapPosition.Value, addon->HoveredCoords));
+                                    var target = zone.Aetherytes.MinBy(x => Vector2.Distance(x.MapPosition.Value, AddonAreaMapExtensions.GetHoveredCoords(addon)));
                                     TaskAethernetTeleport.Enqueue(target.Name);
                                 }
                             }

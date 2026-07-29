@@ -1,18 +1,13 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Lifestream.CSExtensions;
+
 public static unsafe class AddonAreaMapExtensions
 {
-    extension(AddonAreaMap addon)
+    public static Vector2 GetHoveredCoords(AddonAreaMap* addon)
     {
-        private short* HoveredCoordsPtr => (short*)((nint)(&addon) + 1968);
-        private float HoveredX => (float)addon.HoveredCoordsPtr[0] + (float)addon.HoveredCoordsPtr[1] / 10f;
-        private float HoveredY => (float)addon.HoveredCoordsPtr[2] + (float)addon.HoveredCoordsPtr[3] / 10f;
-        public Vector2 HoveredCoords => new(addon.HoveredX, addon.HoveredY);
+        var hoveredCoords = (short*)((nint)addon + 1968);
+        var hoveredX      = hoveredCoords[0] + hoveredCoords[1] / 10f;
+        var hoveredY      = hoveredCoords[2] + hoveredCoords[3] / 10f;
+        return new(hoveredX, hoveredY);
     }
 }

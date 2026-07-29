@@ -386,10 +386,11 @@ internal static unsafe class UIDebug
         {
             if(TryGetAddonByName<AddonAreaMap>("AreaMap", out var addon))
             {
-                ImGuiEx.Text($"{addon->HoveredCoords} - press ctrl to copy");
+                ImGuiEx.Text($"{AddonAreaMapExtensions.GetHoveredCoords(addon)} - press ctrl to copy");
                 if(ImGuiEx.Ctrl && EzThrottler.Throttle("Copy") && !CSFramework.Instance()->WindowInactive)
                 {
-                    Copy($", new({addon->HoveredCoords.X}f, {addon->HoveredCoords.Y}f)");
+                    var hoveredCoords = AddonAreaMapExtensions.GetHoveredCoords(addon);
+                    Copy($", new({hoveredCoords.X}f, {hoveredCoords.Y}f)");
                 }
             }
         }

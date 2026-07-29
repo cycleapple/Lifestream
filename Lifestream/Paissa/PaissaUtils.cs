@@ -148,9 +148,9 @@ public class PaissaUtils
         return status switch
         {
             PaissaStatus.Idle => "",
-            PaissaStatus.Progress => "Retrieving...",
-            PaissaStatus.Success => "Success!",
-            PaissaStatus.Error => "Error!",
+            PaissaStatus.Progress => "正在取得資料……",
+            PaissaStatus.Success => "成功！",
+            PaissaStatus.Error => "發生錯誤！",
             _ => "",
         };
     }
@@ -171,9 +171,9 @@ public class PaissaUtils
     {
         return size switch
         {
-            0 => "Small",
-            1 => "Medium",
-            _ => "Large"
+            0 => "小型",
+            1 => "中型",
+            _ => "大型"
         };
     }
 
@@ -186,10 +186,10 @@ public class PaissaUtils
     {
         return purchaseSystem switch
         {
-            3 => "Free Company",
-            5 => "Individual",
-            7 => "Unrestricted",
-            _ => "N/A"
+            3 => "部隊",
+            5 => "個人",
+            7 => "不限",
+            _ => "不適用"
         };
     }
 }

@@ -672,7 +672,7 @@ internal static unsafe partial class Utils
                 point = worldPos;
             }
             ImGui.BeginTooltip();
-            ImGuiEx.Text($"Point: {point:F2}\nLeft-click to finish");
+            ImGuiEx.Text($"位置：{point:F2}\n點擊左鍵完成");
             ImGui.EndTooltip();
             if(IsKeyPressed((int)Keys.LButton))
             {
@@ -702,7 +702,7 @@ internal static unsafe partial class Utils
                 point = worldPos.ToVector2();
             }
             ImGui.BeginTooltip();
-            ImGuiEx.Text($"Point: {point:F2}\nLeft-click to finish");
+            ImGuiEx.Text($"位置：{point:F2}\n點擊左鍵完成");
             ImGui.EndTooltip();
             if(IsKeyPressed((int)Keys.LButton))
             {
@@ -747,20 +747,20 @@ internal static unsafe partial class Utils
         {
             value = Player.Position.ToVector2();
         }
-        ImGuiEx.Tooltip("To player positon");
+        ImGuiEx.Tooltip("設為玩家位置");
         ImGui.SameLine(0, 1);
         if(ImGuiEx.IconButton(FontAwesomeIcon.Crosshairs, $"target{id}", enabled: Svc.Targets.Target != null))
         {
             value = Svc.Targets.Target.Position.ToVector2();
         }
-        ImGuiEx.Tooltip("To target positon");
+        ImGuiEx.Tooltip("設為目標位置");
         ImGui.SameLine(0, 1);
         if(ImGuiEx.IconButton(FontAwesomeIcon.MousePointer, $"target{id}", enabled: Player.Interactable))
         {
             BeginScreenToWorldSelection(id, value);
         }
         ScreenToWorldSelector(id, ref value);
-        ImGuiEx.Tooltip("Select with mouse");
+        ImGuiEx.Tooltip("使用滑鼠選取");
         /*ImGui.SameLine(0, 1);
         if(ImGuiEx.IconButton(FontAwesomeIcon.Flag, $"flag{id}", enabled: Player.Interactable && AgentMap.Instance()->IsFlagMarkerSet == true))
         {
@@ -798,7 +798,7 @@ internal static unsafe partial class Utils
                 Notify.Error("An error occurred while retrieving element coordinates");
             }
         }
-        ImGuiEx.Tooltip("From selected Splatoon element");
+        ImGuiEx.Tooltip("從選取的 Splatoon 元素取得");
     }
 
     public static void DrawVector3Selector(string id, ref Vector3 value)
@@ -810,20 +810,20 @@ internal static unsafe partial class Utils
         {
             value = Player.Position;
         }
-        ImGuiEx.Tooltip("To player positon");
+        ImGuiEx.Tooltip("設為玩家位置");
         ImGui.SameLine(0, 1);
         if(ImGuiEx.IconButton(FontAwesomeIcon.Crosshairs, $"target{id}", enabled: Svc.Targets.Target != null))
         {
             value = Svc.Targets.Target.Position;
         }
-        ImGuiEx.Tooltip("To target positon");
+        ImGuiEx.Tooltip("設為目標位置");
         ImGui.SameLine(0, 1);
         if(ImGuiEx.IconButton(FontAwesomeIcon.MousePointer, $"target{id}", enabled: Player.Interactable))
         {
             BeginScreenToWorldSelection(id, value);
         }
         ScreenToWorldSelector(id, ref value);
-        ImGuiEx.Tooltip("Select with mouse");
+        ImGuiEx.Tooltip("使用滑鼠選取");
         /*ImGui.SameLine(0, 1);
         if(ImGuiEx.IconButton(FontAwesomeIcon.Flag, $"flag{id}", enabled: Player.Interactable && AgentMap.Instance()->IsFlagMarkerSet == true))
         {
@@ -861,7 +861,7 @@ internal static unsafe partial class Utils
                 Notify.Error("An error occurred while retrieving element coordinates");
             }
         }
-        ImGuiEx.Tooltip("From selected Splatoon element");
+        ImGuiEx.Tooltip("從選取的 Splatoon 元素取得");
     }
 
     public static IEnumerable<uint> GetAllRegisteredAethernetDestinations()

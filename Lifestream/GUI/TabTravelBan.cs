@@ -12,11 +12,11 @@ public static class TabTravelBan
         ImGuiEx.Text(EColor.RedBright, FontAwesomeIcon.ExclamationTriangle.ToIconString());
         ImGui.PopFont();
         ImGui.SameLine();
-        ImGuiEx.TextWrapped(EColor.RedBright, "Be mindful that this function is meant to be the last chance to avoid unrecoverable mistakes. Using this function may break other plugins that rely on Lifestream. Blocking travel in a specific direction will block it only via Lifestream. You can still travel manually.");
+        ImGuiEx.TextWrapped(EColor.RedBright, "此功能是避免無法挽回錯誤的最後防線，請謹慎使用。使用此功能可能會影響依賴 Lifestream 的其他插件。封鎖特定方向的跨服移動只會阻止 Lifestream 執行，您仍可手動移動。");
 
         ImGuiEx.LineCentered(() =>
         {
-            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Plus, "Add new entry"))
+            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Plus, "新增項目"))
             {
                 var entry = new TravelBanInfo();
                 if(Player.Available)
@@ -30,9 +30,9 @@ public static class TabTravelBan
         if(ImGui.BeginTable("Bantable", 5, ImGuiTableFlags.RowBg | ImGuiTableFlags.NoSavedSettings | ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
         {
             ImGui.TableSetupColumn("##enabled");
-            ImGui.TableSetupColumn("Character name and world", ImGuiTableColumnFlags.WidthStretch);
-            ImGui.TableSetupColumn("Travel source");
-            ImGui.TableSetupColumn("Travel destination");
+            ImGui.TableSetupColumn("角色名稱與伺服器", ImGuiTableColumnFlags.WidthStretch);
+            ImGui.TableSetupColumn("移動來源");
+            ImGui.TableSetupColumn("移動目的地");
             ImGui.TableSetupColumn("##control");
 
             ImGui.TableHeadersRow();
@@ -46,7 +46,7 @@ public static class TabTravelBan
                 ImGui.TableNextColumn();
                 ImGuiEx.InputWithRightButtonsArea(() =>
                 {
-                    ImGui.InputTextWithHint("##chara", "Character name", ref entry.CharaName, 30);
+                    ImGui.InputTextWithHint("##chara", "角色名稱", ref entry.CharaName, 30);
                 }, () =>
                 {
                     ImGuiEx.Text("@");
@@ -57,7 +57,7 @@ public static class TabTravelBan
                 ImGui.TableNextColumn();
 
                 ImGui.SetNextItemWidth(100f.Scale());
-                if(ImGui.BeginCombo("##from", $"{entry.BannedFrom.Count} worlds", ImGuiComboFlags.HeightLarge))
+                if(ImGui.BeginCombo("##from", $"{entry.BannedFrom.Count} 個伺服器", ImGuiComboFlags.HeightLarge))
                 {
                     Utils.DrawWorldSelector(entry.BannedFrom);
                     ImGui.EndCombo();
@@ -65,7 +65,7 @@ public static class TabTravelBan
                 ImGui.TableNextColumn();
 
                 ImGui.SetNextItemWidth(100f.Scale());
-                if(ImGui.BeginCombo("##to", $"{entry.BannedTo.Count} worlds", ImGuiComboFlags.HeightLarge))
+                if(ImGui.BeginCombo("##to", $"{entry.BannedTo.Count} 個伺服器", ImGuiComboFlags.HeightLarge))
                 {
                     Utils.DrawWorldSelector(entry.BannedTo);
                     ImGui.EndCombo();

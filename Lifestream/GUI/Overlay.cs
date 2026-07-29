@@ -13,7 +13,7 @@ namespace Lifestream.GUI;
 
 public class Overlay : Window
 {
-    private Overlay() : base("Lifestream Overlay", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoFocusOnAppearing, true)
+    private Overlay() : base("Lifestream 浮層###Lifestream Overlay", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoFocusOnAppearing, true)
     {
         EzConfigGui.WindowSystem.AddWindow(this);
         IsOpen = true;
@@ -308,7 +308,7 @@ public class Overlay : Window
             }
             if(ImGuiEx.CollectionCheckbox("Hidden", x.ID, C.Hidden)) EzConfig.Save();
             var newName = C.Renames.TryGetValue(x.ID, out var value) ? value : "";
-            ImGuiEx.Text($"Rename:");
+            ImGuiEx.Text("重新命名：");
             ImGui.SetNextItemWidth(200f.Scale());
             if(ImGui.InputText($"##LifestreamRename", ref newName, 100))
             {

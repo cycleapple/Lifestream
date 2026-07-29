@@ -238,57 +238,57 @@ internal static unsafe class UISettings
         .Section("Wotsit 整合")
         .Widget(() =>
         {
-            var anyChanged = ImGui.Checkbox("Enable Wotsit Integration for teleporting to Aethernet destinations", ref C.WotsitIntegrationEnabled);
+            var anyChanged = ImGui.Checkbox("啟用 Wotsit 整合，以傳送至都市傳送網目的地", ref C.WotsitIntegrationEnabled);
             ImGuiEx.PluginAvailabilityIndicator([new("Dalamud.FindAnything", "Wotsit")]);
 
             if(C.WotsitIntegrationEnabled)
             {
                 ImGui.Indent();
-                if(ImGui.Checkbox("Include world select window", ref C.WotsitIntegrationIncludes.WorldSelect))
+                if(ImGui.Checkbox("包含伺服器選擇視窗", ref C.WotsitIntegrationIncludes.WorldSelect))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include auto-teleport to property", ref C.WotsitIntegrationIncludes.PropertyAuto))
+                if(ImGui.Checkbox("包含自動傳送至房產", ref C.WotsitIntegrationIncludes.PropertyAuto))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to private estate", ref C.WotsitIntegrationIncludes.PropertyPrivate))
+                if(ImGui.Checkbox("包含傳送至私人房屋", ref C.WotsitIntegrationIncludes.PropertyPrivate))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to free company estate", ref C.WotsitIntegrationIncludes.PropertyFreeCompany))
+                if(ImGui.Checkbox("包含傳送至公會房屋", ref C.WotsitIntegrationIncludes.PropertyFreeCompany))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to apartment", ref C.WotsitIntegrationIncludes.PropertyApartment))
+                if(ImGui.Checkbox("包含傳送至公寓", ref C.WotsitIntegrationIncludes.PropertyApartment))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to inn room", ref C.WotsitIntegrationIncludes.PropertyInn))
+                if(ImGui.Checkbox("包含傳送至旅館房間", ref C.WotsitIntegrationIncludes.PropertyInn))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to grand company", ref C.WotsitIntegrationIncludes.GrandCompany))
+                if(ImGui.Checkbox("包含傳送至所屬大國防聯軍", ref C.WotsitIntegrationIncludes.GrandCompany))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to market board", ref C.WotsitIntegrationIncludes.MarketBoard))
+                if(ImGui.Checkbox("包含傳送至市場佈告板", ref C.WotsitIntegrationIncludes.MarketBoard))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include teleport to island sanctuary", ref C.WotsitIntegrationIncludes.IslandSanctuary))
+                if(ImGui.Checkbox("包含傳送至無人島", ref C.WotsitIntegrationIncludes.IslandSanctuary))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include auto-teleport to aethernet destinations", ref C.WotsitIntegrationIncludes.AetheryteAethernet))
+                if(ImGui.Checkbox("包含自動傳送至都市傳送網目的地", ref C.WotsitIntegrationIncludes.AetheryteAethernet))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include address book entries", ref C.WotsitIntegrationIncludes.AddressBook))
+                if(ImGui.Checkbox("包含通訊錄項目", ref C.WotsitIntegrationIncludes.AddressBook))
                 {
                     anyChanged = true;
                 }
-                if(ImGui.Checkbox("Include custom aliases", ref C.WotsitIntegrationIncludes.CustomAlias))
+                if(ImGui.Checkbox("包含自訂別名", ref C.WotsitIntegrationIncludes.CustomAlias))
                 {
                     anyChanged = true;
                 }
@@ -309,29 +309,29 @@ internal static unsafe class UISettings
     private static void DrawOverlay()
     {
         new NuiBuilder()
-        .Section("General Overlay Settings")
+        .Section("一般浮層設定")
         .Widget(() =>
         {
-            ImGui.Checkbox("Enable Overlay", ref C.Enable);
+            ImGui.Checkbox("啟用浮層", ref C.Enable);
             if(C.Enable)
             {
                 ImGui.Indent();
-                ImGui.Checkbox($"Display Aethernet menu", ref C.ShowAethernet);
-                ImGui.Checkbox($"Display World Visit menu", ref C.ShowWorldVisit);
-                ImGui.Checkbox($"Display Housing Ward buttons", ref C.ShowWards);
+                ImGui.Checkbox("顯示都市傳送網選單", ref C.ShowAethernet);
+                ImGui.Checkbox("顯示跨界移動選單", ref C.ShowWorldVisit);
+                ImGui.Checkbox("顯示住宅區按鈕", ref C.ShowWards);
 
                 UtilsUI.NextSection();
 
-                ImGui.Checkbox("Fixed Lifestream Overlay position", ref C.FixedPosition);
+                ImGui.Checkbox("固定 Lifestream 浮層位置", ref C.FixedPosition);
                 if(C.FixedPosition)
                 {
                     ImGui.Indent();
                     ImGui.SetNextItemWidth(200f.Scale());
-                    ImGuiEx.EnumCombo("Horizontal base position", ref C.PosHorizontal);
+                    ImGuiEx.EnumCombo("水平基準位置", ref C.PosHorizontal);
                     ImGui.SetNextItemWidth(200f.Scale());
-                    ImGuiEx.EnumCombo("Vertical base position", ref C.PosVertical);
+                    ImGuiEx.EnumCombo("垂直基準位置", ref C.PosVertical);
                     ImGui.SetNextItemWidth(200f.Scale());
-                    ImGui.DragFloat2("Offset", ref C.Offset);
+                    ImGui.DragFloat2("偏移", ref C.Offset);
 
                     ImGui.Unindent();
                 }
@@ -340,38 +340,38 @@ internal static unsafe class UISettings
 
                 ImGui.SetNextItemWidth(100f.Scale());
                 fixed(int* ptr = &C.ButtonWidthArray[0])
-                fixed(byte* sptr = "Button left/right padding\0"u8)
+                fixed(byte* sptr = "按鈕左右留白\0"u8)
                 {
                     ImGuiNative.InputInt3(sptr, ptr, ImGuiInputTextFlags.None);
                 }
                 ImGui.SetNextItemWidth(100f.Scale());
-                ImGui.InputInt("Aetheryte button top/bottom padding", ref C.ButtonHeightAetheryte);
+                ImGui.InputInt("傳送水晶按鈕上下留白", ref C.ButtonHeightAetheryte);
                 ImGui.SetNextItemWidth(100f.Scale());
-                ImGui.InputInt("World button top/bottom padding", ref C.ButtonHeightWorld);
+                ImGui.InputInt("伺服器按鈕上下留白", ref C.ButtonHeightWorld);
                 ImGui.Unindent();
 
-                ImGui.Checkbox("Left-align text on buttons", ref C.LeftAlignButtons);
+                ImGui.Checkbox("按鈕文字靠左對齊", ref C.LeftAlignButtons);
                 if(C.LeftAlignButtons)
                 {
                     ImGui.SetNextItemWidth(100f);
-                    ImGui.DragInt("Left padding, spaces", ref C.LeftAlignPadding, 0.1f, 0, 20);
+                    ImGui.DragInt("左側留白（空格數）", ref C.LeftAlignPadding, 0.1f, 0, 20);
                 }
             }
         })
 
-        .Section("Instance changer")
-        .Checkbox("Enabled", () => ref C.ShowInstanceSwitcher)
-        .Checkbox("Retry on failure", () => ref C.InstanceSwitcherRepeat)
-        .Checkbox("Return to the ground when flying before changing instance", () => ref C.EnableFlydownInstance)
-        .Widget("Display instance number in Server Info Bar", (x) =>
+        .Section("副本分流切換")
+        .Checkbox("啟用", () => ref C.ShowInstanceSwitcher)
+        .Checkbox("失敗時重試", () => ref C.InstanceSwitcherRepeat)
+        .Checkbox("切換分流前若正在飛行，先降落地面", () => ref C.EnableFlydownInstance)
+        .Widget("在伺服器資訊列顯示分流編號", (x) =>
         {
             if(ImGui.Checkbox(x, ref C.EnableDtrBar))
             {
                 S.DtrManager.Refresh();
             }
         })
-        .SliderInt(150f, "Extra button height", () => ref C.InstanceButtonHeight, 0, 50)
-        .Widget("Reset Instance Data", (x) =>
+        .SliderInt(150f, "額外按鈕高度", () => ref C.InstanceButtonHeight, 0, 50)
+        .Widget("重設分流資料", (x) =>
         {
             if(ImGuiEx.Button(x, C.PublicInstances.Count > 0))
             {
@@ -380,8 +380,8 @@ internal static unsafe class UISettings
             }
         })
 
-        .Section("Game Window Integration")
-        .Checkbox($"Hide Lifestream if the following game windows are open", () => ref C.HideAddon)
+        .Section("遊戲視窗整合")
+        .Checkbox("下列遊戲視窗開啟時隱藏 Lifestream", () => ref C.HideAddon)
         .If(() => C.HideAddon)
         .Widget(() =>
         {
@@ -393,7 +393,7 @@ internal static unsafe class UISettings
                 ImGui.TableNextRow();
                 ImGui.TableNextColumn();
                 ImGuiEx.SetNextItemFullWidth();
-                ImGui.InputTextWithHint("##addnew", "Window name... /xldata ai - to find it", ref AddNew, 100);
+                ImGui.InputTextWithHint("##addnew", "視窗名稱…可用 /xldata ai 查詢", ref AddNew, 100);
                 ImGui.TableNextColumn();
                 if(ImGuiEx.IconButton(FontAwesomeIcon.Plus))
                 {
@@ -420,7 +420,7 @@ internal static unsafe class UISettings
                         if(C.HideAddonList.Contains(name)) continue;
                         ImGui.TableNextRow();
                         ImGui.TableNextColumn();
-                        ImGuiEx.TextV(EColor.Green, $"Focused: {name}");
+                        ImGuiEx.TextV(EColor.Green, $"目前焦點：{name}");
                         ImGui.TableNextColumn();
                         ImGui.PushID(name);
                         if(ImGuiEx.IconButton(FontAwesomeIcon.Plus))
@@ -460,7 +460,7 @@ internal static unsafe class UISettings
         if(C.Hidden.Count > 0)
         {
             new NuiBuilder()
-            .Section("Hidden Aetherytes")
+            .Section("隱藏的傳送水晶")
             .Widget(() =>
             {
                 uint toRem = 0;
@@ -468,7 +468,7 @@ internal static unsafe class UISettings
                 {
                     ImGuiEx.Text($"{Svc.Data.GetExcelSheet<Aetheryte>().GetRowOrDefault(x)?.AethernetName.ValueNullable?.Name.ToString() ?? x.ToString()}");
                     ImGui.SameLine();
-                    if(ImGui.SmallButton($"Delete##{x}"))
+                    if(ImGui.SmallButton($"刪除##{x}"))
                     {
                         toRem = x;
                     }
@@ -485,27 +485,27 @@ internal static unsafe class UISettings
     private static void DrawExpert()
     {
         new NuiBuilder()
-        .Section("Expert Settings")
+        .Section("進階設定")
         .Widget(() =>
         {
-            ImGui.Checkbox($"Slow down aetheryte teleporting", ref C.SlowTeleport);
-            ImGuiEx.HelpMarker($"Slows down aethernet teleportation by specified amount.");
+            ImGui.Checkbox("放慢都市傳送網的傳送速度", ref C.SlowTeleport);
+            ImGuiEx.HelpMarker("每次都市傳送網傳送時增加指定延遲。");
             if(C.SlowTeleport)
             {
                 ImGui.Indent();
                 ImGui.SetNextItemWidth(200f.Scale());
-                ImGui.DragInt("Teleport delay (ms)", ref C.SlowTeleportThrottle);
+                ImGui.DragInt("傳送延遲（毫秒）", ref C.SlowTeleportThrottle);
                 ImGui.Unindent();
             }
-            ImGuiEx.CheckboxInverted($"Skip waiting until game screen is ready", ref C.WaitForScreenReady);
-            ImGuiEx.HelpMarker($"Enable this option for faster teleports but be careful that you may get stuck.");
-            ImGui.Checkbox($"Hide progress bar", ref C.NoProgressBar);
-            ImGuiEx.HelpMarker($"Hiding progress bar leaves you with no way to stop Lifestream from executing it's tasks.");
-            ImGuiEx.CheckboxInverted($"Don't walk to nearby aetheryte on world change command from greater distance", ref C.WalkToAetheryte);
-            ImGui.Checkbox($"Progress overlay at top of the sreen", ref C.ProgressOverlayToTop);
-            ImGui.Checkbox("Allow custom alias and house alias to override built-in commands", ref C.AllowCustomOverrides);
+            ImGuiEx.CheckboxInverted("略過等待遊戲畫面就緒", ref C.WaitForScreenReady);
+            ImGuiEx.HelpMarker("啟用後傳送較快，但可能會卡住。");
+            ImGui.Checkbox("隱藏進度列", ref C.NoProgressBar);
+            ImGuiEx.HelpMarker("隱藏進度列後，將無法從進度列停止 Lifestream 執行工作。");
+            ImGuiEx.CheckboxInverted("遠距離執行跨界命令時，不走向附近的傳送水晶", ref C.WalkToAetheryte);
+            ImGui.Checkbox("將進度浮層顯示於畫面頂端", ref C.ProgressOverlayToTop);
+            ImGui.Checkbox("允許自訂別名及房屋別名覆寫內建指令", ref C.AllowCustomOverrides);
             ImGui.Indent();
-            ImGuiEx.TextWrapped(EColor.RedBright, "Warning! Other plugins may rely on built-in commands. Ensure that it is not the case if you decide to enable this option and override commands.");
+            ImGuiEx.TextWrapped(EColor.RedBright, "警告：其他插件可能依賴內建指令。啟用並覆寫指令前，請確認沒有其他插件使用這些指令。");
             ImGui.Unindent();
         })
         .Draw();

@@ -17,7 +17,7 @@ public class PaissaUtils
                 PluginLog.Error($"Error retrieving data: {responseData}");
                 return new PaissaResult
                 {
-                    FolderText = "Error: Unable to retrieve listings. See log for details.",
+                    FolderText = "錯誤：無法取得房屋清單，詳細資訊請查看記錄。",
                     Status = PaissaStatus.Error
                 };
             }
@@ -28,7 +28,7 @@ public class PaissaUtils
                 PluginLog.Error("Failed to deserialize PaissaResponse.");
                 return new PaissaResult
                 {
-                    FolderText = "Error: Invalid response format.",
+                    FolderText = "錯誤：回應格式無效。",
                     Status = PaissaStatus.Error
                 };
             }
@@ -44,7 +44,7 @@ public class PaissaUtils
             });
             return new PaissaResult
             {
-                FolderText = "Success!",
+                FolderText = "成功！",
                 Status = PaissaStatus.Success
             }; ;
         }
@@ -53,7 +53,7 @@ public class PaissaUtils
             PluginLog.Error($"Exception in import task: {ex.Message}");
             return new PaissaResult
             {
-                FolderText = $"Error: {ex.Message}",
+                FolderText = $"錯誤：{ex.Message}",
                 Status = PaissaStatus.Error
             };
         }
@@ -80,7 +80,7 @@ public class PaissaUtils
                     plotStr,
                     false,
                     false,
-                    $"{district.Name} Ward {wardStr} Plot {plotStr} ({GetCostString(plot.Price)})",
+                    $"{district.Name} 第 {wardStr} 區 {plotStr} 號地皮（{GetCostString(plot.Price)}）",
                     plot.Size,
                     plot.LottoEntries,
                     plot.PurchaseSystem
@@ -91,7 +91,7 @@ public class PaissaUtils
 
         PaissaAddressBookFolder folder = new()
         {
-            ExportedName = "House Listings",
+            ExportedName = "房屋清單",
             Entries = entries,
             IsDefault = false,
             GUID = Guid.NewGuid()
@@ -179,7 +179,7 @@ public class PaissaUtils
 
     private static string GetCostString(int cost)
     {
-        return cost.ToString("N0") + "g";
+        return cost.ToString("N0") + " 金幣";
     }
 
     public static string GetAllowedTenantsStringFromPurchaseSystem(int purchaseSystem)

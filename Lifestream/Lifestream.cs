@@ -597,7 +597,7 @@ public unsafe class Lifestream : IDalamudPlugin
                 {
                     if(EzThrottler.Throttle("WarnTerminate", 1000))
                     {
-                        DuoLog.Warning($"Arrived to {ExcelWorldHelper.GetName(TabUtility.TargetWorldID)}. Game is shutting down in {EzThrottler.GetRemainingTime("TerminateGame") / 1000} seconds. Type \"/li stop\" to cancel.");
+                        DuoLog.Warning($"已抵達 {ExcelWorldHelper.GetName(TabUtility.TargetWorldID)}。遊戲將在 {EzThrottler.GetRemainingTime("TerminateGame") / 1000} 秒後關閉。輸入「/li stop」即可取消。");
                     }
                 }
             }

@@ -221,13 +221,13 @@ public unsafe class SearchHelperOverlay : Window
         if(FilteredSuggestions.Count == 0)
         {
             ImGui.PushStyleColor(ImGuiCol.Text, 0xFF808080);
-            ImGui.Text("No matching commands found");
+            ImGui.Text("找不到相符的指令");
             ImGui.PopStyleColor();
             return;
         }
 
         ImGui.PushStyleColor(ImGuiCol.Text, 0xFFFFFFFF);
-        ImGui.Text($"Lifestream Commands{(string.IsNullOrEmpty(FilterText) ? "" : $" matching '{FilterText}'")}:");
+        ImGui.Text($"Lifestream 指令{(string.IsNullOrEmpty(FilterText) ? "" : $"（符合「{FilterText}」）")}：");
         ImGui.PopStyleColor();
         ImGui.Separator();
 
@@ -236,7 +236,17 @@ public unsafe class SearchHelperOverlay : Window
             var suggestion = FilteredSuggestions[i];
 
             var displayText = $"/li {suggestion.Command}";
-            var typeText = $"[{suggestion.Type}]";
+            var localizedType = suggestion.Type switch
+            {
+                "Built-in" => "內建",
+                "System" => "系統",
+                "Custom Alias" => "自訂別名",
+                "Address Book" => "通訊錄",
+                "World" => "伺服器",
+                "DC World" => "資料中心伺服器",
+                _ => suggestion.Type
+            };
+            var typeText = $"[{localizedType}]";
             var totalText = $"{displayText} {typeText}";
             var textSize = ImGui.CalcTextSize(totalText);
             var available = ImGui.GetContentRegionAvail();
@@ -281,7 +291,7 @@ public unsafe class SearchHelperOverlay : Window
 
         ImGui.Separator();
         ImGui.PushStyleColor(ImGuiCol.Text, 0xFF808080);
-        ImGui.Text("Click to complete");
+        ImGui.Text("點擊即可完成輸入");
         ImGui.PopStyleColor();
         WindowSize = ImGui.GetWindowSize();
     }

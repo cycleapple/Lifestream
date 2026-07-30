@@ -1,6 +1,7 @@
 ﻿using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using ECommons.SimpleGui;
+using Lumina.Excel.Sheets;
 
 namespace Lifestream.GUI.Windows;
 public class SelectWorldWindow : Window
@@ -18,6 +19,16 @@ public class SelectWorldWindow : Window
             ImGuiEx.Text($"沒有可用的目的地");
             return;
         }
+
+        var taiwanWorlds = worlds
+            .Where(x => x != null && PublicWorlds.IsTaiwanWorld(x.Value.RowId))
+            .ToArray();
+        if(taiwanWorlds.Length > 0)
+        {
+            DrawTaiwanWorlds(taiwanWorlds);
+            return;
+        }
+
         var datacenters = worlds.Select(x => x?.DataCenter).DistinctBy(x => x?.RowId).OrderBy(x => x.Value.ValueNullable?.Region).ToArray();
         if(ImGui.BeginTable("LifestreamSelectWorld", datacenters.Length, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.BordersV | ImGuiTableFlags.BordersOuter))
         {
@@ -55,5 +66,37 @@ public class SelectWorldWindow : Window
             }
             ImGui.EndTable();
         }
+    }
+
+    private static void DrawTaiwanWorlds(World?[] worlds)
+    {
+        if(!ImGui.BeginTable("LifestreamSelectTaiwanWorld", 1, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.BordersV | ImGuiTableFlags.BordersOuter))
+            return;
+
+        var modifier = "";
+        if(Player.Object != null
+            && (PublicWorlds.IsTaiwanWorld(Player.Object.HomeWorld.RowId)
+                || PublicWorlds.IsTaiwanWorld(Player.Object.CurrentWorld.RowId)))
+            modifier = "";
+
+        ImGui.TableSetupColumn($"{modifier}陸行鳥");
+        ImGui.TableHeadersRow();
+        ImGui.TableNextRow();
+        ImGui.TableNextColumn();
+
+        var buttonSize = worlds
+            .Select(world => ImGuiHelpers.GetButtonSize("" + world?.Name.ToString()))
+            .Aggregate(Vector2.Zero, (current, size) => new Vector2(Math.Max(current.X, size.X), Math.Max(current.Y, size.Y)));
+        buttonSize += new Vector2(0, C.ButtonHeightWorld);
+
+        foreach(var world in worlds)
+        {
+            var worldModifier = Player.Object?.HomeWorld.RowId == world?.RowId ? "" : "";
+            if(ImGuiEx.Button(worldModifier + world?.Name.ToString(), buttonSize,
+                   !Utils.IsBusy() && Player.Interactable && Player.Object?.CurrentWorld.RowId != world?.RowId))
+                P.ProcessCommand("/li", world?.Name.ToString());
+        }
+
+        ImGui.EndTable();
     }
 }

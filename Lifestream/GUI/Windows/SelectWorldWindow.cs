@@ -13,19 +13,18 @@ public class SelectWorldWindow : Window
 
     public override void Draw()
     {
+        if(Player.Object != null
+            && (PublicWorlds.IsTaiwanWorld(Player.Object.HomeWorld.RowId)
+                || PublicWorlds.IsTaiwanWorld(Player.Object.CurrentWorld.RowId)))
+        {
+            DrawTaiwanWorlds([.. PublicWorlds.GetTaiwanWorlds().Select(world => (World?)world)]);
+            return;
+        }
+
         var worlds = S.Data.DataStore.DCWorlds.Concat(S.Data.DataStore.Worlds).Select(x => ExcelWorldHelper.Get(x)).OrderBy(x => x?.Name.ToString());
         if(!worlds.Any())
         {
             ImGuiEx.Text($"沒有可用的目的地");
-            return;
-        }
-
-        var taiwanWorlds = worlds
-            .Where(x => x != null && PublicWorlds.IsTaiwanWorld(x.Value.RowId))
-            .ToArray();
-        if(taiwanWorlds.Length > 0)
-        {
-            DrawTaiwanWorlds(taiwanWorlds);
             return;
         }
 

@@ -211,6 +211,10 @@ public unsafe class Lifestream : IDalamudPlugin
         {
             TaskPropertyShortcut.Enqueue(TaskPropertyShortcut.PropertyType.Auto);
         }
+        else if(arguments.EqualsIgnoreCaseAny("ren"))
+        {
+            TaskPropertyShortcut.Enqueue(TaskPropertyShortcut.PropertyType.Ren);
+        }
         else if(arguments.EqualsIgnoreCaseAny("home", "house", "private"))
         {
             TaskPropertyShortcut.Enqueue(TaskPropertyShortcut.PropertyType.Home);

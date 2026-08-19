@@ -1,5 +1,8 @@
 ﻿using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Game.ClientState.Objects.Types;
+using ECommons.Automation;
+using ECommons.Automation.NeoTaskManager;
 using ECommons.Automation.NeoTaskManager.Tasks;
 using ECommons.ExcelServices;
 using ECommons.ExcelServices.TerritoryEnumeration;
@@ -114,7 +117,46 @@ public static unsafe class TaskPropertyShortcut
             {
                 EnqueueGoToInn(innIndex);
             }
+            else if(propertyType == PropertyType.Ren)
+            {
+                var destinationQueued = false;
+                foreach(var x in C.PropertyPrioOverrides.SafeSelect(Player.CID) ?? C.PropertyPrio)
+                {
+                    if(x.Enabled && ExecuteByPropertyType(x.Type, mode, innIndex, enterApartment))
+                    {
+                        EnqueueRetainerBellInteraction();
+                        destinationQueued = true;
+                        break;
+                    }
+                }
+
+                if(!destinationQueued)
+                {
+                    Notify.Error("找不到可用的回家目的地，無法前往傳喚鈴。");
+                }
+            }
         }, "ReturnToHomeTask");
+    }
+
+    private const uint RetainerBellDataId = 2000403;
+
+    private static void EnqueueRetainerBellInteraction()
+    {
+        IGameObject FindBell()
+            => Svc.Objects.Where(x => x.IsTargetable && x.DataId == RetainerBellDataId).OrderBy(Player.DistanceTo).FirstOrDefault();
+
+        var timeout = new ECommons.Automation.NeoTaskManager.TaskManagerConfiguration(timeLimitMS: 30000);
+        timeout.OnTaskTimeout += OnBellTimeout;
+
+        P.TaskManager.EnqueueTask(NeoTasks.ApproachObjectViaAutomove(FindBell, 4f, timeout));
+        P.TaskManager.EnqueueTask(NeoTasks.InteractWithObject(FindBell, configuration: timeout));
+
+        static void OnBellTimeout(TaskManagerTask task, ref long remainingTime)
+        {
+            Chat.ExecuteCommand("/automove off");
+            P.FollowPath.Stop();
+            Notify.Error("等待傳喚鈴出現或接近傳喚鈴逾時（30 秒）。");
+        }
     }
 
     private static bool ExecuteByPropertyType(PropertyType type, HouseEnterMode? mode, int? innIndex, bool? enterApartment)
@@ -475,6 +517,6 @@ public static unsafe class TaskPropertyShortcut
 
     public enum PropertyType
     {
-        Auto, Home, FC, Apartment, Inn, Shared_Estate
+        Auto, Home, FC, Apartment, Inn, Shared_Estate, Ren
     }
 }

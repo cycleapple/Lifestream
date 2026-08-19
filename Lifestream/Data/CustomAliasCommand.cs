@@ -1,5 +1,6 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
 using ECommons.Automation.NeoTaskManager.Tasks;
+using ECommons.Automation;
 using ECommons.ExcelServices;
 using ECommons.GameHelpers;
 using ECommons.MathHelpers;
@@ -42,8 +43,12 @@ public class CustomAliasCommand
     public bool RequireTerritoryChange = false;
     public uint Territory = 0;
     public float? InteractDistance = null;
+    public float WaitSeconds = 1f;
+    public string SlashCommand = string.Empty;
 
     public bool ShouldSerializeInteractDistance() => Kind.EqualsAny(CustomAliasKind.Interact) && InteractDistance != Default.InteractDistance;
+    public bool ShouldSerializeWaitSeconds() => Kind == CustomAliasKind.Wait && WaitSeconds != Default.WaitSeconds;
+    public bool ShouldSerializeSlashCommand() => Kind == CustomAliasKind.Execute_Slash_Command && !SlashCommand.IsNullOrEmpty();
     public bool ShouldSerializeWalkToExit() => Kind.EqualsAny(CustomAliasKind.Circular_movement) && WalkToExit != Default.WalkToExit;
     public bool ShouldSerializeExtraPoints() => ExtraPoints.Count > 0;
     public bool ShouldSerializeTerritory() => Territory != 0 && Kind.EqualsAny(CustomAliasKind.Move_to_point, CustomAliasKind.Navmesh_to_point, CustomAliasKind.Circular_movement);
@@ -288,6 +293,19 @@ public class CustomAliasCommand
                 P.TPAndChangeWorld(world, S.Ipc.IPCProvider.CanVisitCrossDC(world), skipChecks: true);
             }
         }
+        else if(Kind == CustomAliasKind.Wait)
+        {
+            var milliseconds = (int)Math.Round(WaitSeconds * 1000d);
+            if(milliseconds > 0)
+            {
+                P.TaskManager.EnqueueDelay(milliseconds);
+            }
+        }
+        else if(Kind == CustomAliasKind.Execute_Slash_Command)
+        {
+            var command = SlashCommand.Trim();
+            P.TaskManager.Enqueue((Action)(() => Chat.ExecuteCommand(command)), $"執行指令：{command}");
+        }
     }
     public bool IsUsingTAForMovement() => UseTA && Svc.PluginInterface.InstalledPlugins.Any(x => x.Name == "TextAdvance" && x.IsLoaded);
 
@@ -336,6 +354,34 @@ public class CustomAliasCommand
             if(!S.Data.DataStore.Worlds.Contains(ExcelWorldHelper.GetName(this.World)) && !S.Data.DataStore.DCWorlds.Contains(ExcelWorldHelper.GetName(this.World)))
             {
                 error = $"Can not visit {ExcelWorldHelper.GetName(this.World)} from {Player.CurrentWorld}";
+                return false;
+            }
+        }
+        else if(this.Kind == CustomAliasKind.Wait)
+        {
+            if(float.IsNaN(WaitSeconds) || float.IsInfinity(WaitSeconds) || WaitSeconds < 0f || WaitSeconds > 600f)
+            {
+                error = $"等待秒數必須介於 0～600，目前為 {WaitSeconds:0.###}";
+                return false;
+            }
+        }
+        else if(this.Kind == CustomAliasKind.Execute_Slash_Command)
+        {
+            var command = (SlashCommand ?? string.Empty).Trim();
+            if(command.IsNullOrEmpty())
+            {
+                error = "Slash 指令不可為空";
+                return false;
+            }
+            if(!command.StartsWith('/'))
+            {
+                error = "Slash 指令必須以 / 開頭";
+                return false;
+            }
+            var byteCount = Encoding.UTF8.GetByteCount(command);
+            if(byteCount > 500)
+            {
+                error = $"Slash 指令過長（{byteCount} bytes，最多 500 bytes）";
                 return false;
             }
         }

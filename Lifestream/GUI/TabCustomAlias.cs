@@ -17,6 +17,24 @@ public static class TabCustomAlias
 {
     private static ImGuiEx.RealtimeDragDrop<CustomAliasCommand> DragDrop = new("CusACmd", x => x.ID);
     private static readonly Vector4[] ChainColors = [ImGuiColors.DalamudRed, ImGuiColors.ParsedOrange, ImGuiColors.DalamudYellow, ImGuiColors.ParsedGreen, ImGuiColors.TankBlue, ImGuiColors.ParsedPurple];
+    private static readonly Dictionary<CustomAliasKind, string> CustomAliasKindNames = new()
+    {
+        [CustomAliasKind.Teleport_to_Aetheryte] = "傳送至以太之光",
+        [CustomAliasKind.Move_to_point] = "移動至座標",
+        [CustomAliasKind.Navmesh_to_point] = "導航至座標",
+        [CustomAliasKind.Change_world] = "切換世界",
+        [CustomAliasKind.Use_Aethernet] = "使用都市內以太之光",
+        [CustomAliasKind.Circular_movement] = "圓周移動",
+        [CustomAliasKind.Interact] = "與目標互動",
+        [CustomAliasKind.Mount_Up] = "騎乘坐騎",
+        [CustomAliasKind.Select_Yes] = "選擇「是」",
+        [CustomAliasKind.Select_List_Option] = "選擇列表選項",
+        [CustomAliasKind.Confirm_Contents_Finder] = "確認任務搜尋器",
+        [CustomAliasKind.Wait_for_Transition] = "等待區域轉換",
+        [CustomAliasKind.Return_to_Home_World] = "返回原始世界",
+        [CustomAliasKind.Wait] = "等待",
+        [CustomAliasKind.Execute_Slash_Command] = "執行 Slash 指令",
+    };
 
     public static void Draw()
     {
@@ -134,7 +152,7 @@ public static class TabCustomAlias
                     });
                 }
 
-            ImGuiEx.TreeNodeCollapsingHeader($"指令 {i + 1}：{x.Kind.ToString().Replace('_', ' ')}{GetExtraText(x)}###{x.ID}", () => DrawCommand(x, selected, i), ImGuiTreeNodeFlags.CollapsingHeader);
+            ImGuiEx.TreeNodeCollapsingHeader($"指令 {i + 1}：{CustomAliasKindNames.SafeSelect(x.Kind, x.Kind.ToString().Replace('_', ' '))}{GetExtraText(x)}###{x.ID}", () => DrawCommand(x, selected, i), ImGuiTreeNodeFlags.CollapsingHeader);
                 DrawSplatoon(x, i);
             }
             ImGui.EndTable();
@@ -180,6 +198,19 @@ public static class TabCustomAlias
         else if(x.Kind == CustomAliasKind.Interact)
         {
             return $" [{x.DataID}]";
+        }
+        else if(x.Kind == CustomAliasKind.Wait)
+        {
+            return $" [{x.WaitSeconds:0.###} 秒]";
+        }
+        else if(x.Kind == CustomAliasKind.Execute_Slash_Command)
+        {
+            var command = (x.SlashCommand ?? string.Empty).Trim();
+            if(command.Length > 28)
+            {
+                command = command[..28] + "…";
+            }
+            return command.Length == 0 ? string.Empty : $" [{command}]";
         }
         return "";
     }
@@ -290,7 +321,21 @@ public static class TabCustomAlias
 
         ImGui.Separator();
         ImGui.SetNextItemWidth(150f.Scale());
-        ImGuiEx.EnumCombo("別名類型", ref command.Kind);
+        ImGuiEx.EnumCombo("別名類型", ref command.Kind, CustomAliasKindNames);
+
+        if(command.Kind == CustomAliasKind.Wait)
+        {
+            ImGui.SetNextItemWidth(120f.Scale());
+            ImGui.DragFloat("##waitSeconds", ref command.WaitSeconds.ValidateRange(0f, 600f), 0.05f, 0f, 600f, "%.2f 秒");
+            ImGuiEx.Tooltip("等待 0～600 秒，可輸入小數秒。");
+        }
+
+        if(command.Kind == CustomAliasKind.Execute_Slash_Command)
+        {
+            ImGuiEx.SetNextItemFullWidth();
+            ImGui.InputTextWithHint("##slashCommand", "以 / 開頭，例如：/li home", ref command.SlashCommand, 500);
+            ImGuiEx.Tooltip("最多 500 UTF-8 bytes；執行失敗會中止這次別名序列。");
+        }
 
         if(command.Kind == CustomAliasKind.Teleport_to_Aetheryte)
         {

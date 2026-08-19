@@ -44,7 +44,7 @@ namespace Lifestream;
 
 internal static unsafe partial class Utils
 {
-    public static string[] LifestreamNativeCommands = ["auto", "home", "house", "private", "fc", "free", "company", "free company", "apartment", "apt", "shared", "inn", "hinn", "gc", "gcc", "hc", "hcc", "fcgc", "gcfc", "mb", "market", "island", "is", "sanctuary", "cosmic", "ardorum", "moon", "tp"];
+    public static string[] LifestreamNativeCommands = ["auto", "ren", "home", "house", "private", "fc", "free", "company", "free company", "apartment", "apt", "shared", "inn", "hinn", "gc", "gcc", "hc", "hcc", "fcgc", "gcfc", "mb", "market", "island", "is", "sanctuary", "cosmic", "ardorum", "moon", "tp"];
 
 
     public static ErrorCode ChangeCharacter(string charaName, string charaHomeWorld)

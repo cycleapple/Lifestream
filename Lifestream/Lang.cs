@@ -31,6 +31,7 @@ internal static class Lang
     -- Estates --
 
     /li auto → go to your private estate, shared estate, FC estate or apartment, based on configured preference
+    /li ren → return according to configured preference, then approach and interact with the summoning bell
     /li shared → go to your shared estate, based on configured preference
     /li home → go to your private estate, alias: /li home|house|private
     /li fc → go to your FC estate, alias: /li fc|free|company|free company

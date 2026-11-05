@@ -1,4 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,7 @@ internal unsafe static class OverrideAFK
         module->AfkTimer = 0;
         module->ContentInputTimer = 0;
         module->InputTimer = 0;
-        module->Unk1C = 0;
+
+        // API14 follows upstream: reset the three public input timers only.
     }
 }

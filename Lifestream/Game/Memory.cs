@@ -1,4 +1,4 @@
-﻿using Dalamud.Hooking;
+using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using ECommons.EzHookManager;
 using ECommons.MathHelpers;
@@ -65,7 +65,7 @@ public unsafe class Memory : IDisposable
                     EventType = AtkEventType.ListItemClick,
                     ReturnFlags = 0,
                     StateFlags = 0,
-                    UnkFlags3 = 0,
+                    // Private API14 padding remains zero-initialized.
                 }
             }
         };

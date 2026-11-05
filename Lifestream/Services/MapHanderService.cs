@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Memory;
 using ECommons.Interop;
@@ -37,7 +37,7 @@ public unsafe class MapHanderService : IDisposable
         if(args is AddonReceiveEventArgs evt && TryGetAddonByName<AddonAreaMap>("AreaMap", out var addon) && addon->AtkUnitBase.IsReady() && !Utils.IsBusy())
         {
             /*var atkEvent = (AtkEvent*)evt.AtkEvent;
-            var data = MemoryHelper.ReadRaw(evt.Data, 40);
+            var data = MemoryHelper.ReadRaw(evt.AtkEventData, 40);
             PluginLog.Information($"""
                 EventParam: {evt.EventParam}
                 AtkEventType: {evt.AtkEventType}
@@ -47,8 +47,8 @@ public unsafe class MapHanderService : IDisposable
                 data: {data.ToHexString()}
                 CursorTarget: {(addon->CursorTarget == null?"-": addon->CursorTarget->NodeId)}
                 """);*/
-            var isLeftClicked = *(byte*)(evt.Data + 6) == 0;
-            var isGamePadClick = *(byte*)(evt.Data + 17) == 1;
+            var isLeftClicked = *(byte*)(evt.AtkEventData + 6) == 0;
+            var isGamePadClick = *(byte*)(evt.AtkEventData + 17) == 1;
             var isGamePadInput = evt.AtkEventType == (int)AtkEventType.InputBaseInputReceived;
             var isMouseUp = evt.AtkEventType == (int)AtkEventType.MouseUp;
             if (isMouseUp && isLeftClicked || isGamePadInput && isGamePadClick)

@@ -1,0 +1,23 @@
+diff --git a/AutoRetainerAPI/AutoRetainerAPI.csproj b/AutoRetainerAPI/AutoRetainerAPI.csproj
+index 02ca2e0..e438fd4 100644
+--- a/AutoRetainerAPI/AutoRetainerAPI.csproj
++++ b/AutoRetainerAPI/AutoRetainerAPI.csproj
+@@ -1,7 +1,7 @@
+-﻿<Project Sdk="Microsoft.NET.Sdk">
++<Project Sdk="Microsoft.NET.Sdk">
+ 
+     <PropertyGroup>
+-        <TargetFramework>net9.0-windows7.0</TargetFramework>
++        <TargetFramework>net10.0-windows7.0</TargetFramework>
+         <Platforms>x64</Platforms>
+         <LangVersion>preview</LangVersion>
+         <DalamudLibPath>$(appdata)\xivlauncher\addon\Hooks\dev\</DalamudLibPath>
+@@ -21,7 +21,7 @@
+     </PropertyGroup>
+ 
+     <ItemGroup>
+-      <PackageReference Include="ECommons" Version="3.0.1.5" />
++      <ProjectReference Include="../../ECommons/ECommons/ECommons.csproj" />
+     </ItemGroup>
+     <ItemGroup>
+         <Reference Include="Newtonsoft.Json">

@@ -1,0 +1,38 @@
+diff --git a/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentInputBase.cs b/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentInputBase.cs
+index 7cf485e00..cdc6757e2 100644
+--- a/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentInputBase.cs
++++ b/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentInputBase.cs
+@@ -1,4 +1,4 @@
+-﻿using FFXIVClientStructs.FFXIV.Client.System.String;
++using FFXIVClientStructs.FFXIV.Client.System.String;
+ 
+ namespace FFXIVClientStructs.FFXIV.Component.GUI;
+ // Component::GUI::AtkComponentInputBase
+@@ -12,6 +12,6 @@ public unsafe struct AtkComponentInputBase
+ {
+     [FieldOffset(0x0)] public AtkComponentBase AtkComponentBase;
+     [FieldOffset(0xC8)] public AtkTextNode* AtkTextNode;
+-    [FieldOffset(0xE0)] public Utf8String UnkText1;
++    [FieldOffset(0xE0)] public Utf8String EvaluatedString;
+     [FieldOffset(0x148)] public Utf8String UnkText2;
+ }
+\ No newline at end of file
+diff --git a/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentTextInput.cs b/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentTextInput.cs
+index 6593e3099..219072680 100644
+--- a/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentTextInput.cs
++++ b/FFXIVClientStructs/FFXIV/Component/GUI/AtkComponentTextInput.cs
+@@ -1,4 +1,4 @@
+-﻿using FFXIVClientStructs.FFXIV.Client.System.String;
++using FFXIVClientStructs.FFXIV.Client.System.String;
+ 
+ namespace FFXIVClientStructs.FFXIV.Component.GUI;
+ // Component::GUI::AtkComponentTextInput
+@@ -15,7 +15,7 @@ namespace FFXIVClientStructs.FFXIV.Component.GUI;
+ public struct AtkComponentTextInput
+ {
+     [FieldOffset(0x0)] public AtkComponentInputBase AtkComponentInputBase;
+-    [FieldOffset(0x280)] public Utf8String UnkText1;
++    [FieldOffset(0x280)] public Utf8String EvaluatedString;
+     [FieldOffset(0x2E8)] public Utf8String UnkText2;
+     [FieldOffset(0x350)] public Utf8String UnkText3;
+     [FieldOffset(0x450)] public Utf8String UnkText4;

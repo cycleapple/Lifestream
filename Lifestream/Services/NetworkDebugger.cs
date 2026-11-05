@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.Network;
+using ECommons.DalamudServices.Legacy;
 using Dalamud.Memory;
 
 namespace Lifestream.Services;
@@ -9,7 +9,7 @@ public unsafe class NetworkDebugger : IDisposable
         Svc.GameNetwork.NetworkMessage += GameNetwork_NetworkMessage;
     }
 
-    private void GameNetwork_NetworkMessage(nint dataPtr, ushort opCode, uint sourceActorId, uint targetActorId, Dalamud.Game.Network.NetworkMessageDirection direction)
+    private void GameNetwork_NetworkMessage(nint dataPtr, ushort opCode, uint sourceActorId, uint targetActorId, ECommons.DalamudServices.Legacy.NetworkMessageDirection direction)
     {
         if(direction == NetworkMessageDirection.ZoneDown && opCode == 0x18a)
         {

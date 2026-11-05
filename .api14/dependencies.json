@@ -1,0 +1,50 @@
+[
+  {
+    "path": "AutoRetainerAPI",
+    "baseCommit": "26758d279e2d1db874a0877926420c93eb9545a4",
+    "patch": "patches/dc1ce226682c02d5.patch",
+    "sha256": "bcc1a35501288389e96859611d07705fe14f4bc516c0b19636576056b40004ff"
+  },
+  {
+    "path": "ECommons",
+    "baseCommit": "9599fc24748941e6065005a79672f1be27d7d5fc",
+    "patch": "patches/e347001520b30beb.patch",
+    "sha256": "eebd640a28a67593f6a471c4d39b2fff7ea0bb0307f5113d6eaf689854bc3923"
+  },
+  {
+    "path": "FFXIVClientStructs",
+    "baseCommit": "937d4fd012ad378132f26b09690e685b1096dfc4",
+    "patch": "patches/db59c145327a52d7.patch",
+    "sha256": "0a3f92d5b0b31b9ae022afdb0b357adb027178966aa1dbfcc0d8e98d9ea36105"
+  },
+  {
+    "path": "NightmareUI",
+    "baseCommit": "9a697ef2eb2c9e2d055f3b6942b8a8c1379be77f",
+    "patch": "patches/71c63842f9d729a9.patch",
+    "sha256": "b0ecc705237c318562ec8748ddea6e7bac05a477a6e56a8fe04578ad6e2bfb3f"
+  },
+  {
+    "path": "NightmareUI.OtterGuiWrapper",
+    "baseCommit": "9302c29036458bb48cee99624839aeacfd994b0a",
+    "patch": "patches/71832a9a572de965.patch",
+    "sha256": "a4d72a7867c63369235d894f7ef3489c137d60dded9e33bb0ed69268568263b8"
+  },
+  {
+    "path": "OtterGui",
+    "baseCommit": "3ea61642a05403fb2b64032112ff674b387825b3",
+    "patch": "patches/fa3971c4e08c8077.patch",
+    "sha256": "3cca454cae7e6b11447342ab2e4c7aaef4e252d6336c2215a9e2bcd11a12dcae"
+  },
+  {
+    "path": "OtterGui/OtterGuiInternal",
+    "baseCommit": "49631aab5c267953f9d442546488ea3bfdf52fa7",
+    "patch": "patches/83d6c41b4082a781.patch",
+    "sha256": "9997cf5bc08788acb336cb58a8405138ba9a14a407dd295f4ccbd1bd4cafd5a1"
+  },
+  {
+    "path": "ClickLib/lib/FFXIVClientStructs",
+    "baseCommit": "23bfedf9343d36dd5f9e0588688ced5559f86dc3",
+    "patch": "patches/9ea89dff21da02a9.patch",
+    "sha256": "7bde68e6e4510d21c77cdf2577c93f1981c3a0bce44938454845fe61a9dac60a"
+  }
+]

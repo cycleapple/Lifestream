@@ -1,0 +1,41 @@
+diff --git a/NightmareUI/NightmareUI.csproj b/NightmareUI/NightmareUI.csproj
+index edb2ed2..c0a0384 100644
+--- a/NightmareUI/NightmareUI.csproj
++++ b/NightmareUI/NightmareUI.csproj
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <Project Sdk="Microsoft.NET.Sdk">
+     <PropertyGroup>
+         <Authors>NightmareXIV</Authors>
+@@ -7,7 +7,7 @@
+     </PropertyGroup>
+ 
+     <PropertyGroup>
+-        <TargetFramework>net9.0-windows7.0</TargetFramework>
++        <TargetFramework>net10.0-windows7.0</TargetFramework>
+         <Platforms>x64</Platforms>
+         <LangVersion>preview</LangVersion>
+         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+@@ -100,7 +100,7 @@
+     </ItemGroup>
+     
+     <ItemGroup>
+-        <PackageReference Include="ECommons" Version="3.0.1.9" />
++        <ProjectReference Include="../../ECommons/ECommons/ECommons.csproj" />
+     </ItemGroup>
+ 
+     <ItemGroup Condition="Exists('..\..\ECommons\ECommons\ECommons.csproj')">
+diff --git a/NightmareUI/packages.lock.json b/NightmareUI/packages.lock.json
+index 48d499c..f746996 100644
+--- a/NightmareUI/packages.lock.json
++++ b/NightmareUI/packages.lock.json
+@@ -1,7 +1,7 @@
+ {
+   "version": 1,
+   "dependencies": {
+-    "net9.0-windows7.0": {
++    "net10.0-windows7.0": {
+       "ecommons": {
+         "type": "Project"
+       }

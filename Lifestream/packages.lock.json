@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net9.0-windows7.0": {
+    "net10.0-windows7.0": {
       "DalamudPackager": {
         "type": "Direct",
         "requested": "[2.1.13, )",
@@ -35,7 +35,7 @@
       "autoretainerapi": {
         "type": "Project",
         "dependencies": {
-          "ECommons": "[3.0.1.5, )"
+          "ECommons": "[3.0.1.22, )"
         }
       },
       "ecommons": {

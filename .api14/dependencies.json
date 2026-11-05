@@ -42,6 +42,12 @@
     "sha256": "9997cf5bc08788acb336cb58a8405138ba9a14a407dd295f4ccbd1bd4cafd5a1"
   },
   {
+    "path": "api14-deps/NotificationMasterAPI",
+    "baseCommit": "4820166aebf63290616e7f9090b514936eab13b3",
+    "patch": "patches/e00f8b1b8da20344.patch",
+    "sha256": "1a2d04d308c45ffc31bae2d8c38522e45a49bb0fccf4272951591087a9f2704a"
+  },
+  {
     "path": "ClickLib/lib/FFXIVClientStructs",
     "baseCommit": "23bfedf9343d36dd5f9e0588688ced5559f86dc3",
     "patch": "patches/9ea89dff21da02a9.patch",

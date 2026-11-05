@@ -19,3 +19,6 @@
 [submodule "FFXIVClientStructs"]
 	path = FFXIVClientStructs
 	url = https://github.com/Limiana/FFXIVClientStructs
+[submodule "api14-deps/NotificationMasterAPI"]
+	path = api14-deps/NotificationMasterAPI
+	url = E:\\FFXIV\\XIVLauncher\\api13-extended-work\\sources\\Questionable\\vendor\\NotificationMasterAPI

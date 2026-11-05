@@ -8,12 +8,6 @@
         "resolved": "2.1.13",
         "contentHash": "rMN1omGe8536f4xLMvx9NwfvpAc9YFFfeXJ1t4P4PE6Gu8WCIoFliR1sh07hM+bfODmesk/dvMbji7vNI+B/pQ=="
       },
-      "NotificationMasterAPI": {
-        "type": "Direct",
-        "requested": "[1.0.0.1, )",
-        "resolved": "1.0.0.1",
-        "contentHash": "ta+lQtxQzHkqPC3doDn3ud8MvtwNnTgTIeXqfqu92G4lAy+/UJZ6iEefFH4MRZmX8Z99nUmUJZ4zcRvVMABzjQ=="
-      },
       "JetBrains.Annotations": {
         "type": "Transitive",
         "resolved": "2024.3.0",
@@ -54,6 +48,9 @@
           "NightmareUI": "[1.0.0, )",
           "OtterGui": "[1.0.0, )"
         }
+      },
+      "notificationmasterapi": {
+        "type": "Project"
       },
       "ottergui": {
         "type": "Project",
